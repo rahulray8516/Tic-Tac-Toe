@@ -4,6 +4,7 @@ import React from "react";
 export default function Square() {
   return(
   <div>
+    
       <div className="board-row">
       <button className="square">X</button>
       <button className="square">X</button>
@@ -20,9 +21,24 @@ export default function Square() {
       <button className="square">X</button>
       </div>
 
-                  
-    </div>
+        {/* Adding Zeroes */}
+
+      <div className="board-row">
+      <button className="square">O</button>
+      <button className="square">O</button>
+      <button className="square">O</button>
+      </div>
+      <div className="board-row">
+      <button className="square">O</button>
+      <button className="square">O</button>
+      <button className="square">O</button>
+      </div>
+      <div className="board-row">
+      <button className="square">O</button>
+      <button className="square">O</button>
+      <button className="square">O</button>
+      </div>
+  </div>
   );
 }
-
  
