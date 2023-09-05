@@ -5,14 +5,6 @@ var x = 0;
 
 
 function Square({value,onSquareClick}){
-
-  // const [value,setValue] = useState(null);
- 
-  // function handleClick(){
-  //   x % 2 ? setValue('O') : setValue('X');
-  //   console.log("Clicked" + " " + (++x) + " times")
-    
-  // }
   
   return ( <button className="square" onClick={onSquareClick} >{value}</button> );
 } 
@@ -20,14 +12,26 @@ function Square({value,onSquareClick}){
 
 export default function Board() {
 
+  const[xisNext,setNext] = useState(true);
   const [squares,setSquares] = useState(Array(9).fill(null));
 
   function handleClick(i) {
     console.log("Clicked" + " " + (++x) + " times")
 
+    if(squares[i]){
+      return;
+    }
+
     const nextSquares = squares.slice();
-    nextSquares[i] = "X";
-    setSquares(nextSquares);    
+    
+    if(xisNext){
+      nextSquares[i] = "X";
+    }
+    else{
+      nextSquares[i] = "O";
+    }
+    setSquares(nextSquares);
+    setNext(!xisNext);   
   }
 
   return(
@@ -52,3 +56,4 @@ export default function Board() {
    </div>
   );
 }
+
