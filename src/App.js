@@ -9,22 +9,16 @@ function Square({value,onSquareClick}){
   return ( <button className="square" onClick={onSquareClick} >{value}</button> );
 } 
 
- function Board() {
+ function Board({xisNext, squares , onPlay}) {
 
-  const[xisNext,setNext] = useState(true);
-  const [squares,setSquares] = useState(Array(9).fill(null));
-
-  function handleClick(i) {
+    function handleClick(i) {
     console.log("Clicked" + " " + (++x) + " times")
-
-    // if(squares[i]){
-    //   return;
-    // }
 
     if( CalculateWinner(squares) || squares[i]){
       console.log("Congratulation You won");
       return;
     }
+
 
     const nextSquares = squares.slice();
     
@@ -34,8 +28,8 @@ function Square({value,onSquareClick}){
     else{
       nextSquares[i] = "O";
     }
-    setSquares(nextSquares);
-    setNext(!xisNext);  
+    onPlay(nextSquares);
+
     
   }
    const winner = CalculateWinner(squares);
@@ -45,7 +39,7 @@ function Square({value,onSquareClick}){
     }else{
       status = 'Next player : ' + (xisNext ? 'X':'O');
     }
-
+    
 
   return(
   <div>
@@ -71,12 +65,47 @@ function Square({value,onSquareClick}){
 }
 
 export default function Game() {
+
+  const[xisNext,setNext] = useState(true);
+  const[history, setHistory] = useState([Array(9).fill(null)]);
+  const currentSquare = history[history.length-1];
+  console.log(currentSquare);
+
+
+  function handlePlay(nextSquares){
+    setHistory([...history , nextSquares]);
+    setNext(!xisNext);
+
+  }
+
+  function jumpTo(nextMove) {
+    //Todo
+  }
+
+  const moves = history.map((squares, move)=>{
+    let description;
+    if(move > 0){
+      description = 'Go to move #' + move;
+    }else {
+      description = 'Go to game start';
+    }
+    return (
+      <li>
+        <button onClick = {() => jumpTo(move) }>
+        {description}
+        </button>
+      </li>
+    );
+  });
+
   return (
     <div className="game">
       <div className="game-board">
-        <Board/>
+        <Board xisNext={xisNext} squares={currentSquare} onPlay={handlePlay} />
       </div>
-
+      <div className="game-info">
+        <ol> {moves} </ol>
+      </div>
     </div>
   );
 }
